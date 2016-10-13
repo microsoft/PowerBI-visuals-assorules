@@ -1,0 +1,61 @@
+{
+  "cranPackages": [
+    {
+      "name": "nloptr",
+      "displayName": "nloptr: R interface to NLopt",
+      "url": "https://cran.r-project.org/web/packages/nloptr/index.html"
+    },
+    {
+      "name": "seriation",
+      "displayName": "seriation: Infrastructure for Ordering Objects Using Seriation",
+      "url": "https://cran.r-project.org/web/packages/seriation/index.html"
+    },
+    {
+      "name": "gtools",
+      "displayName": "gtools: Various R Programming Tools",
+      "url": "https://cran.r-project.org/web/packages/gtools/index.html"
+    },
+    {
+      "name": "caTools",
+      "displayName": "caTools: Tools: moving window statistics etc",
+      "url": "https://cran.r-project.org/web/packages/caTools/index.html"
+    },
+    {
+      "name": "lmtest",
+      "displayName": "lmtest: Testing Linear Regression Models",
+      "url": "https://cran.r-project.org/web/packages/lmtest/index.html"
+    },
+    {
+      "name": "arules",
+      "displayName": "arules: Mining Association Rules",
+      "url": "https://cran.r-project.org/web/packages/arules/index.html"
+    },
+    {
+      "name": "arulesViz",
+      "displayName": "arulesViz: Visualizing Association Rules",
+      "url": "https://cran.r-project.org/web/packages/arulesViz/index.html"
+    },
+    {
+      "name": "grDevices",
+      "displayName": "The R Graphics Devices and Support for Colours and Fonts",
+      "url": "http://astrostatistics.psu.edu/su07/R/library/grDevices/html/00Index.html"
+    },
+    {
+      "name": "gridExtra",
+      "displayName": "gridExtra: Miscellaneous Functions for Grid Graphics",
+      "url": "https://cran.r-project.org/web/packages/gridExtra/index.html"
+    },
+    {
+      "name": "grid",
+      "displayName": "grid",
+      "url": "https://cran.r-project.org/web/packages/grid/index.html"
+    },
+    {
+      "name": "methods",
+      "displayName": "methods",
+      "url": "https://cran.r-project.org/web/packages/methods/index.html"
+    }
+
+  ]
+}
+
