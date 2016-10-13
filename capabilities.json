@@ -1,0 +1,352 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "Unique ID",
+      "description": "May be used optionally to prevent two identical rows from being counted as one",
+      "kind": "GroupingOrMeasure",
+      "name": "ID"
+    },
+    {
+      "displayName": "LHS",
+      "description": "Items for Left Hand Side (LHS) of the rule `IF LHS THEN RHS`. Binary or Categorical variable",
+      "kind": "Grouping",
+      "name": "LHS"
+    },
+    {
+      "displayName": "RHS",
+       "description": "Items for Right Hand Side (RHS) of the rule `IF LHS THEN RHS`. Binary or Categorical variable ",
+      "kind": "Grouping",
+      "name": "RHS"
+    },
+    {
+      "displayName": "BOTH",
+      "description": "To be used for items which are allowed in LHS and RHS. Binary or Categorical variable",
+      "kind": "Grouping",
+      "name": "BOTH"
+    }
+  ],
+  "dataViewMappings": [
+    {
+       "conditions": [
+           { "ID": { "max": 1 }, "LHS": { "max": 100 }, "RHS": { "max": 100 }, "BOTH": { "max": 100 } }
+      ],
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+                "select": [
+                { "for": { "in": "ID" } },
+                { "for": { "in": "LHS" } },
+                { "for": { "in": "RHS" } },
+                { "for": { "in": "BOTH" } }
+              ],
+              "dataReductionAlgorithm": {
+                "top": { }
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "png",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "rcv_script": {
+      "properties": {
+        "provider": {
+          "type": { "text": true }
+        },
+        "source": {
+          "type": {
+            "scripting": { "source": true }
+          }
+        }
+      }
+    },
+    "settings_thresholds_params":{
+        "displayName": "Thresholds",
+        "description": "Thresholds for `apriori` algorithm for assosiation rules mining. Note, that  If the thresholds are too loose, the procedure may be slow and consuming more memory. If the thresholds are too tight, the algorithm may found no rules",
+        "properties": {
+           "show": {
+                "type": {"bool": true}
+            },
+             "minRuleLength":{
+            "displayName": "Min Rule Length",
+            "description": "Takes into account items in LHS(left hand side) and RHS(right hand side) of a rule", 
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "2",
+                    "value": "2"
+                  },
+                   {
+                    "displayName": "3",
+                    "value": "3"
+                  },
+                  {
+                    "displayName": "4",
+                    "value": "4"
+                  },
+                  {
+                    "displayName": "5",
+                    "value": "5"
+                  },
+                   {
+                    "displayName": "6",
+                    "value": "6"
+                  },
+                  {
+                    "displayName": "7",
+                    "value": "7"
+                  },
+                  {
+                    "displayName": "8",
+                    "value": "8"
+                  },
+                   {
+                    "displayName": "9",
+                    "value": "9"
+                  },
+                  {
+                    "displayName": "10",
+                    "value": "10"
+                  } 
+                ]      
+            }
+          },
+          "maxRuleLength":{
+            "displayName": "Max Rule Length",
+            "description": "Takes into account items in LHS(left hand side) and RHS(right hand side) of a rule",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "2",
+                    "value": "2"
+                  },
+                   {
+                    "displayName": "3",
+                    "value": "3"
+                  },
+                  {
+                    "displayName": "4",
+                    "value": "4"
+                  },
+                  {
+                    "displayName": "5",
+                    "value": "5"
+                  },
+                   {
+                    "displayName": "6",
+                    "value": "6"
+                  },
+                  {
+                    "displayName": "7",
+                    "value": "7"
+                  },
+                  {
+                    "displayName": "8",
+                    "value": "8"
+                  },
+                   {
+                    "displayName": "9",
+                    "value": "9"
+                  },
+                  {
+                    "displayName": "10",
+                    "value": "10"
+                  } 
+                ]      
+            }
+          },
+            "threshSupport":{
+            "displayName": "Support >",
+            "description": "SUPPORT determines how often the rule is applicable for current dataset,  mostly we are interested in rules with large SUPPORT, certainly above zero",
+            "type": {  "numeric": true}
+          },     
+          "threshConfidence":{
+            "displayName": "Confidence >",
+            "description": "CONFIDENCE determines how frequently items in RHS appear in transactions that contain LHS, mostly we are interested in rules with CONFIDENCE > 0.5",
+            "type": {  "numeric": true}
+          },     
+          "threshLift":{
+            "displayName": "Lift >",
+            "description": "LIFT is the ratio between the rule's confidence and the expected confidence, mostly we are interested in rules with LIFT > 1",
+            "type": {  "numeric": true}
+          }
+          
+        }
+    },
+    "settings_rules_params":{
+        "displayName": "Rules selection",
+        "description": "User is given a control to sort and subset the resulting rules",
+        "properties": {
+           "show": {
+                "type": {"bool": true}
+            },
+          "sortBy":{
+            "displayName": "Sort by ",
+             "description": "Sort rules by one of the attributes",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "support",
+                    "value": "support"
+                  },
+                   {
+                    "displayName": "confidence",
+                    "value": "confidence"
+                  },
+                  {
+                    "displayName": "lift",
+                    "value": "lift"
+                  } 
+                ]      
+            }
+          },
+          "showFrom":{
+            "displayName": "Show from rule #",
+            "description": "Recommendation: avoid showing too many rules to avoid clutter",
+            "type": {  "numeric": true}
+          },
+          "showTo":{
+            "displayName": " ... to rule # ",
+             "description": "Recommendation: avoid showing too many rules to avoid clutter",
+            "type": {  "numeric": true}
+          }       
+
+        }
+    },
+    "settings_viz_params":{
+        "displayName": "Rules visualization",
+        "description": "User is given a control to select the type and to parametrize the plot of assosiation rules",
+        "properties": {
+           "show": {
+                "type": {"bool": true}
+            },
+            "visualisationMethod":{
+            "displayName": "Visualisation",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "graph",
+                    "value": "graph"
+                  },
+                  {
+                    "displayName": "paracoord",
+                    "value": "paracoord"
+                  },
+                    {
+                    "displayName": "table",
+                    "value": "table"
+                  },
+                   {
+                    "displayName": "scatter",
+                    "value": "scatter"
+                  }
+                ]
+              }
+          },
+          "rulesPerPlate":{
+            "displayName": "Rules per plate",
+            "description": "Each rule in directed graph is shown as node. Using small number of rules per plate will generate more small graphs",
+            "type": {
+                "enumeration": [
+                  {
+                    "displayName": "1",
+                    "value": "1"
+                  },
+                  {
+                    "displayName": "2",
+                    "value": "2"
+                  },
+                   {
+                    "displayName": "3",
+                    "value": "3"
+                  },
+                  {
+                    "displayName": "4",
+                    "value": "4"
+                  },
+                  {
+                    "displayName": "5",
+                    "value": "5"
+                  },
+                   {
+                    "displayName": "6",
+                    "value": "6"
+                  },
+                  {
+                    "displayName": "7",
+                    "value": "7"
+                  },
+                  {
+                    "displayName": "Unlimited",
+                    "value": "1000"
+                  }
+                ]      
+            }
+          },
+          "textSize":{
+            "displayName": "Font size",
+            "type" :{ "numeric": true }
+          },
+          "edgeColLHS":{
+            "displayName": "Color LHS",
+            "description": "Edge color",
+            "type": { "fill": { "solid": { "color": true }}}
+          },
+          "edgeColRHS":{
+            "displayName": "Color RHS",
+            "description": "Edge color",
+            "type": { "fill": { "solid": { "color": true }}}
+          },
+          "colorBy": {
+              "displayName": "Color by",
+              "description": "Color by one of the rule's attributes ",
+              "type": {
+                "enumeration": [
+                  {
+                    "displayName": "support",
+                    "value": "support"
+                  },
+                   {
+                    "displayName": "confidence",
+                    "value": "confidence"
+                  },
+                  {
+                    "displayName": "lift",
+                    "value": "lift"
+                  }
+                ]      
+              }
+            }
+        }
+    },
+    "settings_additional_params":{
+        "displayName": "Additional parameters",
+        "properties": {
+           "show": {
+                "type": {"bool": true}
+            }, 
+            "showWarnings":{
+            "displayName": "Show warnings",
+            "type": {  "bool": true}
+          }         
+        }
+    }
+  },
+    
+  "suppressDefaultTitle": true
+}
+ 
