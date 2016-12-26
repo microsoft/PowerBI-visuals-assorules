@@ -40,8 +40,8 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-#save(list = ls(all.names = TRUE), file='C:/Users/boefraty/projects/PBI/R/R_visuals_gallery/tempData.Rda')
-
+#save(list = ls(all.names = TRUE), file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
+#load(file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
 
 #PBI_EXAMPLE_DATASET for debugging purposes 
 if(!exists("dataset") && !exists("LHS") && !exists("RHS") && !exists("BOTH") && !exists("ID"))
@@ -525,10 +525,11 @@ if(length(rules) == 0)
 if(visualisationMethod == "graph") # graph 
 {
   gp = getGridPartition(length(rules), rulesPerGraphPlate)
+ 
   
-  par(mfrow = c(gp$numRows, gp$numCols))
-  #par(mfrow = c(gp$numRows, gp$numCols), mar = c(1, 1, 1, 1), oma = c(1, 1, 1, 1))
-  
+   par(oma=0.25*c(1,1,1,1),mar=0.5*c(1,1,1,1), mfrow = c(gp$numRows, gp$numCols), xpd = TRUE)
+  # unfortunatly: mar and xpd are overwrited
+    
   for (p in 1:length(gp$partit))
   {
     s = sum(gp$partit[seq(1, length.out = p-1)])+1
@@ -541,7 +542,8 @@ if(visualisationMethod == "graph") # graph
     
     plot(rules[s:e], method = "graph", 
          control = list(type = "items", alpha = 1, measureLabels = FALSE, 
-                      cex = fontSizeGraph, precision = 1, arrowSize = 0.5, main = ""), edge.color = edge.color, margin = -0.01, frame = FALSE)
+                      cex = fontSizeGraph, precision = 1, arrowSize = 0.5, main = "",  layoutParams	 =  list(xpd = T)), edge.color = edge.color, margin = -0.01, frame = FALSE)
+    
   }
 }
 
