@@ -32,16 +32,15 @@ module powerbi.extensibility.visual {
         threshSupport: number;
         threshConfidence: number;
         threshLift: number;
-       
-        
     }
+
     interface VisualSettingsRulesParams {
         show: boolean;
         sortBy: string;
         showFrom: number;
         showTo: number;
     }
-    
+
     interface VisualSettingsVizParams {
         show: boolean;
         visualisationMethod: string;
@@ -50,12 +49,13 @@ module powerbi.extensibility.visual {
         edgeColLHS: string;
         edgeColRHS: string;
         colorBy: string;
-
     }
+
     interface VisualSettingsAdditionalParams {
         show: boolean;
         showWarnings: boolean;
     }
+
     export class Visual implements IVisual {
         private imageDiv: HTMLDivElement;
         private imageElement: HTMLImageElement;
@@ -102,9 +102,6 @@ module powerbi.extensibility.visual {
                 show: false,
                 showWarnings: false
             };
-
-
-
         }
 
         public update(options: VisualUpdateOptions) {
@@ -116,23 +113,20 @@ module powerbi.extensibility.visual {
             if (!dataView || !dataView.metadata)
                 return;
 
-            
-
             this.settings_thresholds_params = <VisualSettingsThresholdsParams>{
                 show: getValue<boolean>(dataView.metadata.objects, 'settings_thresholds_params', 'show', false),
                 maxRuleLength: getValue<string>(dataView.metadata.objects, 'settings_thresholds_params', 'maxRuleLength', "8"),
                 minRuleLength: getValue<string>(dataView.metadata.objects, 'settings_thresholds_params', 'minRuleLength', "2"),
                 threshSupport: getValue<number>(dataView.metadata.objects, 'settings_thresholds_params', 'threshSupport', 0.01),
                 threshConfidence: getValue<number>(dataView.metadata.objects, 'settings_thresholds_params', 'threshConfidence', 0.6),
-                threshLift: getValue<number>(dataView.metadata.objects, 'settings_thresholds_params', 'threshLift', 1.1),
-                
+                threshLift: getValue<number>(dataView.metadata.objects, 'settings_thresholds_params', 'threshLift', 1.1)
             };
 
             this.settings_rules_params = <VisualSettingsRulesParams>{
                 show: getValue<boolean>(dataView.metadata.objects, 'settings_rules_params', 'show', false),
                 sortBy: getValue<string>(dataView.metadata.objects, 'settings_rules_params', 'sortBy', "lift"),
-                showFrom: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showFrom',1),
-                showTo: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showTo', 5),               
+                showFrom: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showFrom', 1),
+                showTo: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showTo', 5)
             };
 
             this.settings_viz_params = <VisualSettingsVizParams>{
@@ -146,9 +140,8 @@ module powerbi.extensibility.visual {
             };
             this.settings_additional_params = <VisualSettingsAdditionalParams> {
                 show: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'show', false),
-                 showWarnings: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'showWarnings', false)
+                showWarnings: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'showWarnings', false)
             };
-
 
             let imageUrl: string = null;
             if (dataView.scriptResult && dataView.scriptResult.payloadBase64) {
@@ -173,17 +166,17 @@ module powerbi.extensibility.visual {
             let objectName = options.objectName;
             let objectEnumeration = [];
 
-            switch(objectName) {
+            switch (objectName) {
                 case 'settings_thresholds_params':
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
                             show: this.settings_thresholds_params.show,
-                              minRuleLength: inMinMaxString(this.settings_thresholds_params.minRuleLength,2,10),
-                              maxRuleLength: inMinMaxString(this.settings_thresholds_params.maxRuleLength,Number(this.settings_thresholds_params.minRuleLength),10),
-                              threshSupport: inMinMax(this.settings_thresholds_params.threshSupport,0,1),
-                              threshConfidence: inMinMax(this.settings_thresholds_params.threshConfidence,0,1),
-                              threshLift: inMinMax(this.settings_thresholds_params.threshLift,0,1000000)
+                            minRuleLength: inMinMaxString(this.settings_thresholds_params.minRuleLength, 2, 10),
+                            maxRuleLength: inMinMaxString(this.settings_thresholds_params.maxRuleLength, Number(this.settings_thresholds_params.minRuleLength), 10),
+                            threshSupport: inMinMax(this.settings_thresholds_params.threshSupport, 0, 1),
+                            threshConfidence: inMinMax(this.settings_thresholds_params.threshConfidence, 0, 1),
+                            threshLift: inMinMax(this.settings_thresholds_params.threshLift, 0, 1000000)
                          },
                         selector: null
                     });
@@ -195,69 +188,60 @@ module powerbi.extensibility.visual {
                             show: this.settings_rules_params.show,
                             sortBy: this.settings_rules_params.sortBy,
                             showFrom: this.settings_rules_params.showFrom,
-                            showTo: inMinMax(this.settings_rules_params.showTo,this.settings_rules_params.showFrom,100)
+                            showTo: inMinMax(this.settings_rules_params.showTo, this.settings_rules_params.showFrom, 100)
                      },
                         selector: null
                     });
                     break;
                     case 'settings_viz_params':
-                    if(this.settings_viz_params.visualisationMethod=="graph")
-                    {
+                    if (this.settings_viz_params.visualisationMethod === "graph") {
                         objectEnumeration.push({
-                        objectName: objectName,
-                        properties: {
-                            show: this.settings_viz_params.show,
-                            visualisationMethod: this.settings_viz_params.visualisationMethod,
-                            rulesPerPlate: inVisMethodAndRulesPerPlate(this.settings_viz_params.visualisationMethod, this.settings_viz_params.rulesPerPlate),
-                            textSize: this.settings_viz_params.textSize,
-                            edgeColLHS: this.settings_viz_params.edgeColLHS,
-                            edgeColRHS: this.settings_viz_params.edgeColRHS,
-                     },
-                        selector: null
-                    });
-
+                            objectName: objectName,
+                            properties: {
+                                show: this.settings_viz_params.show,
+                                visualisationMethod: this.settings_viz_params.visualisationMethod,
+                                rulesPerPlate: inVisMethodAndRulesPerPlate(this.settings_viz_params.visualisationMethod, this.settings_viz_params.rulesPerPlate),
+                                textSize: this.settings_viz_params.textSize,
+                                edgeColLHS: this.settings_viz_params.edgeColLHS,
+                                edgeColRHS: this.settings_viz_params.edgeColRHS,
+                            },
+                            selector: null
+                        });
                     }
-                    else if(this.settings_viz_params.visualisationMethod=="paracoord")
-                    {
+                    else if (this.settings_viz_params.visualisationMethod === "paracoord") {
                         objectEnumeration.push({
-                        objectName: objectName,
-                        properties: {
-                            show: this.settings_viz_params.show,
-                            visualisationMethod: this.settings_viz_params.visualisationMethod,
-                            colorBy: inVisMethodAndColorBy(this.settings_viz_params.visualisationMethod, this.settings_viz_params.colorBy) 
-                     },
-                        selector: null
-                    });
-
+                            objectName: objectName,
+                            properties: {
+                                show: this.settings_viz_params.show,
+                                visualisationMethod: this.settings_viz_params.visualisationMethod,
+                                colorBy: inVisMethodAndColorBy(this.settings_viz_params.visualisationMethod, this.settings_viz_params.colorBy)
+                            },
+                            selector: null
+                        });
                     }
-                    else if(this.settings_viz_params.visualisationMethod=="table")
-                    {
+                    else if (this.settings_viz_params.visualisationMethod === "table") {
                         objectEnumeration.push({
-                        objectName: objectName,
-                        properties: {
-                            show: this.settings_viz_params.show,
-                            visualisationMethod: this.settings_viz_params.visualisationMethod,
-                            textSize: this.settings_viz_params.textSize,
-                            
-                     },
-                        selector: null
-                    });
-
+                            objectName: objectName,
+                            properties: {
+                                show: this.settings_viz_params.show,
+                                visualisationMethod: this.settings_viz_params.visualisationMethod,
+                                textSize: this.settings_viz_params.textSize
+                            },
+                            selector: null
+                        });
                     }
-                    else if(this.settings_viz_params.visualisationMethod=="scatter")
-                    {
+                    else if (this.settings_viz_params.visualisationMethod === "scatter") {
                         objectEnumeration.push({
-                        objectName: objectName,
-                        properties: {
-                            show: this.settings_viz_params.show,
-                            visualisationMethod: this.settings_viz_params.visualisationMethod,
-                            textSize: this.settings_viz_params.textSize, 
-                     },
-                        selector: null
-                    });
-
+                            objectName: objectName,
+                            properties: {
+                                show: this.settings_viz_params.show,
+                                visualisationMethod: this.settings_viz_params.visualisationMethod,
+                                textSize: this.settings_viz_params.textSize
+                            },
+                            selector: null
+                        });
                     }
-                    
+
                     break;
                     case 'settings_additional_params':
                     objectEnumeration.push({
