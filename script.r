@@ -40,8 +40,15 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-#save(list = ls(all.names = TRUE), file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
-#load(file='C:/Users/boefraty/projects/PBI/R/tempData.Rda')
+fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
+if(file.exists(dirname(fileRda)))
+{
+  if(Sys.getenv("RSTUDIO")!="")
+    load(file= fileRda)
+  else
+    save(list = ls(all.names = TRUE), file=fileRda)
+}
+
 
 #PBI_EXAMPLE_DATASET for debugging purposes 
 if(!exists("dataset") && !exists("LHS") && !exists("RHS") && !exists("BOTH") && !exists("ID"))
@@ -343,10 +350,17 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   
   
   if(length(rules)<3)
-     return(rules)
+    return(rules)
   
   subsetMat  <-  is.subset(rules)
-  subsetMat[lower.tri(subsetMat, diag = T)]  <-  NA
+  
+  
+  subsetMat[lower.tri(subsetMat, diag = T)]  <-  FALSE
+  
+  if(length(subsetMat)<=3)
+    return(rules)
+  
+  
   
   redundant  <-  which(colSums(subsetMat, na.rm = T) >=  1)
   toRemove = NULL
@@ -360,7 +374,6 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   
   return(rules)
 }
-
 ###############Upfront input correctness validations (where possible)#################
 pbiWarning <- NULL
 
@@ -422,9 +435,8 @@ if(waitForData==FALSE &&(exists("LHS")||exists("RHS") || exists("BOTH")))
     columnsRHS <- seq(inLeft+inBoth+1,length.out = ncol(RHS))
   }
   inRHS = length(columnsRHS)
-  
-
-  dataset = cbind(LHS,BOTH,RHS)
+  if(nrow(LHS) > 1)
+    dataset = cbind(LHS,BOTH,RHS)
 
 }
 
