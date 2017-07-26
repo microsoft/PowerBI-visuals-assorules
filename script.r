@@ -40,14 +40,14 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
-if(file.exists(dirname(fileRda)))
-{
-  if(Sys.getenv("RSTUDIO")!="")
-    load(file= fileRda)
-  else
-    save(list = ls(all.names = TRUE), file=fileRda)
-}
+# fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
+# if(file.exists(dirname(fileRda)))
+# {
+#   if(Sys.getenv("RSTUDIO")!="")
+#     load(file= fileRda)
+#   else
+#     save(list = ls(all.names = TRUE), file=fileRda)
+# }
 
 
 #PBI_EXAMPLE_DATASET for debugging purposes 
