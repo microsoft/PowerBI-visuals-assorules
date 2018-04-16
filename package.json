@@ -6,7 +6,7 @@
     "package": "pbiviz package",
     "lint": "tslint -r \"node_modules/tslint-microsoft-contrib\" \"+(src)/**/*.ts\"",
     "start": "pbiviz start"
-  },  
+  },
   "devDependencies": {
     "tslint": "^4.4.2",
     "tslint-microsoft-contrib": "^4.0.0",

@@ -23,12 +23,25 @@
       "description": "Items allowed in LHS or RHS (binary or cagegorical variable)",
       "kind": "Grouping",
       "name": "BOTH"
+    },
+    {
+      "displayName": "Transaction ID",
+      "description": "Transaction ID",
+      "kind": "Measure",
+      "name": "TransactionID"
+    },
+    {
+      "displayName": "Item",
+      "description": "Item corresponding to the Transaction ID",
+      "kind": "GroupingOrMeasure",
+      "name": "Item"
     }
   ],
   "dataViewMappings": [
     {
        "conditions": [
-           { "ID": { "max": 1 }, "LHS": { "max": 100 }, "RHS": { "max": 100 }, "BOTH": { "max": 100 } }
+           { "ID": { "max": 1 }, "LHS": { "max": 100 }, "RHS": { "max": 100 }, "BOTH": { "max": 100 },
+           "TransactionID": { "max": 1 }, "Item": { "max": 1}}
       ],
       "scriptResult": {
         "dataInput": {
@@ -38,7 +51,9 @@
                 { "for": { "in": "ID" } },
                 { "for": { "in": "LHS" } },
                 { "for": { "in": "RHS" } },
-                { "for": { "in": "BOTH" } }
+                { "for": { "in": "BOTH" } },
+                { "for": { "in": "TransactionID" } },
+                { "for": { "in": "Item" } }
               ],
               "dataReductionAlgorithm": {
                 "top": { }
@@ -78,9 +93,6 @@
         "displayName": "Thresholds",
         "description": "Thresholds for association rules mining.",
         "properties": {
-           "show": {
-                "type": {"bool": true}
-            },
              "minRuleLength":{
             "displayName": "Min Rule Length",
             "description": "For Left Hand Side (LHS) and Right Hand Side (RHS) of a rule", 
@@ -191,9 +203,6 @@
         "displayName": "Rules selection",
         "description": "Determines how resulting rules are sorted",
         "properties": {
-           "show": {
-                "type": {"bool": true}
-            },
           "sortBy":{
             "displayName": "Sort by ",
              "description": "Sort by an attribute",
@@ -231,9 +240,6 @@
         "displayName": "Rules visualization",
         "description": "Select plot type and parameters",
         "properties": {
-           "show": {
-                "type": {"bool": true}
-            },
             "visualisationMethod":{
             "displayName": "Visualization",
             "type": {
@@ -336,9 +342,6 @@
     "settings_additional_params":{
         "displayName": "Additional parameters",
         "properties": {
-           "show": {
-                "type": {"bool": true}
-            }, 
             "showWarnings":{
             "displayName": "Show warnings",
             "type": {  "bool": true}

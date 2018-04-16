@@ -40,26 +40,26 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-# fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
-# if(file.exists(dirname(fileRda)))
-# {
-#   if(Sys.getenv("RSTUDIO")!="")
-#     load(file= fileRda)
-#   else
-#     save(list = ls(all.names = TRUE), file=fileRda)
-# }
+fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
+if(file.exists(dirname(fileRda)))
+{
+  if(Sys.getenv("RSTUDIO")!="")
+    load(file= fileRda)
+  else
+    save(list = ls(all.names = TRUE), file=fileRda)
+}
 
 
 #PBI_EXAMPLE_DATASET for debugging purposes 
-if(!exists("dataset") && !exists("LHS") && !exists("RHS") && !exists("BOTH") && !exists("ID"))
-{
-  data(Titanic)# and repeat ech row by frequency
-  Titanic1 = as.data.frame(Titanic)
-  Titanic2 <- data.frame(Titanic1[rep(c(1:nrow(Titanic1)), Titanic1$Freq), ])
-  Titanic2$Freq = NULL
-  dataset = cbind(ID = 1:nrow(Titanic2), Titanic2)
-
-}
+# if(!exists("dataset") && !exists("LHS") && !exists("RHS") && !exists("BOTH") && !exists("ID"))
+# {
+#   data(Titanic)# and repeat ech row by frequency
+#   Titanic1 = as.data.frame(Titanic)
+#   Titanic2 <- data.frame(Titanic1[rep(c(1:nrow(Titanic1)), Titanic1$Freq), ])
+#   Titanic2$Freq = NULL
+#   dataset = cbind(ID = 1:nrow(Titanic2), Titanic2)
+# 
+# }
 
 waitForData = FALSE # if waitForData == TRUE show empty plot 
 if(!exists("dataset") && !(exists("BOTH") || (exists("LHS") && exists("RHS"))) )
@@ -69,16 +69,16 @@ if(!exists("dataset") && !(exists("BOTH") || (exists("LHS") && exists("RHS"))) )
 
 ############ User Parameters #########
 
-if(exists("settings_thresholds_params_show") && settings_thresholds_params_show == FALSE)
-  rm(list= ls(pattern = "settings_thresholds_params_"))
-if(exists("settings_rules_params_show") && settings_rules_params_show == FALSE)
-  rm(list= ls(pattern = "settings_rules_params_"))
-if(exists("settings3_show") && settings3_show == FALSE)
-  rm(list= ls(pattern = "settings3_"))
-if(exists("settings_viz_params_show") && settings_viz_params_show == FALSE)
-  rm(list= ls(pattern = "settings_viz_params_"))
-if(exists("settings_additional_params_show") && settings_additional_params_show == FALSE)
-  rm(list= ls(pattern = "settings_additional_params_"))
+# if(exists("settings_thresholds_params_show") && settings_thresholds_params_show == FALSE)
+#   rm(list= ls(pattern = "settings_thresholds_params_"))
+# if(exists("settings_rules_params_show") && settings_rules_params_show == FALSE)
+#   rm(list= ls(pattern = "settings_rules_params_"))
+# if(exists("settings3_show") && settings3_show == FALSE)
+#   rm(list= ls(pattern = "settings3_"))
+# if(exists("settings_viz_params_show") && settings_viz_params_show == FALSE)
+#   rm(list= ls(pattern = "settings_viz_params_"))
+# if(exists("settings_additional_params_show") && settings_additional_params_show == FALSE)
+#   rm(list= ls(pattern = "settings_additional_params_"))
 
 ##PBI_PARAM: Should warnings text be displayed?
 #Type:logical, Default:TRUE, Range:NA, PossibleValues:NA, Remarks: NA
@@ -105,7 +105,7 @@ threshConfidence = min(1,max(threshConfidence,0))
 
 ##PBI_PARAM: minimum acceptable lift measure for rule 
 #Type: numeric, Default:1.1, Range:[0, 10], PossibleValues:NA, Remarks: values larger than 1 are recommended
-threshLift = 1.1
+threshLift = 1.05
 if(exists("settings_thresholds_params_threshLift"))
   threshLift = as.numeric(settings_thresholds_params_threshLift)
 
@@ -166,23 +166,6 @@ if(exists("settings_viz_params_rulesPerPlate"))
   if(is.na(rulesPerGraphPlate))
     rulesPerGraphPlate = 1
 }
-###############Library Declarations###############
-
-libraryRequireInstall = function(packageName, ...)
-{
-  if(!require(packageName, character.only = TRUE)) 
-    warning(paste("*** The package: '", packageName, "' was not installed ***",sep=""))
-}
-
-
-libraryRequireInstall("arules")
-libraryRequireInstall("arulesViz")
-libraryRequireInstall("grDevices")
-libraryRequireInstall("gridExtra")
-libraryRequireInstall("grid")
-libraryRequireInstall("methods")
-
-###############Internal parameters definitions#################
 
 ##PBI_PARAM: color of edges for LHS items for visualisationMethod  =  "graph" 
 #Type: color , Default:"green", Range:NA, PossibleValues:"red", "green", "blue", "cyan", Remarks: see colors {grDevices} command in R
@@ -208,6 +191,25 @@ parCoordColorBy = "lift"
 if(exists("settings_viz_params_colorBy"))
   parCoordColorBy =  settings_viz_params_colorBy
 
+###############Library Declarations###############
+
+libraryRequireInstall = function(packageName, ...)
+{
+  if(!require(packageName, character.only = TRUE)) 
+    warning(paste("*** The package: '", packageName, "' was not installed ***",sep=""))
+}
+
+
+libraryRequireInstall("arules")
+libraryRequireInstall("arulesViz")
+libraryRequireInstall("grDevices")
+libraryRequireInstall("gridExtra")
+libraryRequireInstall("grid")
+libraryRequireInstall("methods")
+
+###############Internal parameters definitions#################
+
+
 ##PBI_PARAM: filter redundant rules by selected measure
 #Type: string , Default:"lift", Range:NA, PossibleValues:"lift", "confidence", Remarks: rule is redundant if it is less predictive than a more general rule 
 filterRedundantBy =  "lift"
@@ -215,35 +217,17 @@ filterRedundantBy =  "lift"
 ##PBI_PARAM: maximum acceptable support for rule 
 #Type: numeric, Default:1, Range:[0, 1], PossibleValues:NA, Remarks: NA
 upperThreshSupport = 1
-if(exists("settings3_threshSupport"))
-  upperThreshSupport = as.numeric(settings3_threshSupport)
+
 
 ##PBI_PARAM: maximum acceptable confidence for rule 
 #Type: numeric, Default:1, Range:[0, 1], PossibleValues:NA, Remarks: NA
 upperThreshConfidence = 1
-if(exists("settings3_threshConfidence"))
-  upperThreshConfidence = as.numeric(settings3_threshConfidence)
 
 ##PBI_PARAM: maximum acceptable confidence for rule 
 #Type: positive numeric, Default:Inf, Range:[0, Inf], PossibleValues:NA, Remarks: NA
 upperThreshLift = Inf
-if(exists("settings3_threshLift"))
-  upperThreshLift = as.numeric(settings3_threshLift)
 
-##PBI_PARAM: array of integer indexes for columns used in left hand side of the rule (LHS)
-#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used all the columns except for the right-most are used 
-if(!exists("columnsLHS"))
-  columnsLHS = NA
 
-##PBI_PARAM: array of integer indexes for columns used in right hand side of the rule (RHS)
-#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, the right-most column is selected 
-if(!exists("columnsRHS"))
-  columnsRHS = NA
-
-##PBI_PARAM: array of integer indexes for columns used both in RHS and LHS
-#Type: array of integers or NA or NULL, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, no columns are selected
-if(!exists("columnsBoth"))
-columnsBoth = NA
 
 ##PBI_PARAM: minimum number of transactions (rows) to run  
 #Type: integer , Default:10, Range:[10, 100], PossibleValues:NA, Remarks: NA
@@ -375,6 +359,33 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   return(rules)
 }
 ###############Upfront input correctness validations (where possible)#################
+
+#TODO: can I remove it? 
+
+##PBI_PARAM: array of integer indexes for columns used in left hand side of the rule (LHS)
+#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used all the columns except for the right-most are used 
+if(!exists("columnsLHS"))
+  columnsLHS = NA
+
+##PBI_PARAM: array of integer indexes for columns used in right hand side of the rule (RHS)
+#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, the right-most column is selected 
+if(!exists("columnsRHS"))
+  columnsRHS = NA
+
+##PBI_PARAM: array of integer indexes for columns used both in RHS and LHS
+#Type: array of integers or NA or NULL, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, no columns are selected
+if(!exists("columnsBoth"))
+  columnsBoth = NA
+
+
+if(!exists("TransactionID"))
+  TransactionID = NULL
+
+if(!exists("Item"))
+  Item = NULL
+
+
+
 pbiWarning <- NULL
 
 

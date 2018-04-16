@@ -4,3 +4,4 @@ dist
 .Rhistory
 .api
 *.log
+assets/assorules_custom_RV_testing.pbix

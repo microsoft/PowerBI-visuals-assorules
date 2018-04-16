@@ -26,7 +26,7 @@
 module powerbi.extensibility.visual {
 
     interface VisualSettingsThresholdsParams {
-        show: boolean;
+        //show: boolean;
         minRuleLength: string;
         maxRuleLength: string;
         threshSupport: number;
@@ -35,14 +35,14 @@ module powerbi.extensibility.visual {
     }
 
     interface VisualSettingsRulesParams {
-        show: boolean;
+       // show: boolean;
         sortBy: string;
         showFrom: number;
         showTo: number;
     }
 
     interface VisualSettingsVizParams {
-        show: boolean;
+        //show: boolean;
         visualisationMethod: string;
         rulesPerPlate: string;
         textSize: number;
@@ -52,7 +52,7 @@ module powerbi.extensibility.visual {
     }
 
     interface VisualSettingsAdditionalParams {
-        show: boolean;
+       // show: boolean;
         showWarnings: boolean;
     }
 
@@ -76,7 +76,7 @@ module powerbi.extensibility.visual {
             this.imageDiv.appendChild(this.imageElement);
 
             this.settings_thresholds_params = <VisualSettingsThresholdsParams>{
-                show: false,
+              //  show: false,
                 minRuleLength: "2",
                 maxRuleLength: "8",
                 threshSupport: 0.01,
@@ -84,13 +84,13 @@ module powerbi.extensibility.visual {
                 threshLift: 1.1
             };
             this.settings_rules_params = <VisualSettingsRulesParams>{
-                show: false,
+               // show: false,
                 sortBy: "lift",
                 showFrom: 1,
                 showTo: 5
             };
             this.settings_viz_params = <VisualSettingsVizParams>{
-                show: false,
+               // show: false,
                 visualisationMethod: "graph",
                 rulesPerPlate: "1",
                 textSize: 10,
@@ -99,7 +99,7 @@ module powerbi.extensibility.visual {
                 colorBy: "lift"
             };
             this.settings_additional_params = <VisualSettingsAdditionalParams>{
-                show: false,
+               // show: false,
                 showWarnings: false
             };
         }
@@ -114,7 +114,7 @@ module powerbi.extensibility.visual {
                 return;
 
             this.settings_thresholds_params = <VisualSettingsThresholdsParams>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings_thresholds_params', 'show', false),
+               // show: getValue<boolean>(dataView.metadata.objects, 'settings_thresholds_params', 'show', false),
                 maxRuleLength: getValue<string>(dataView.metadata.objects, 'settings_thresholds_params', 'maxRuleLength', "8"),
                 minRuleLength: getValue<string>(dataView.metadata.objects, 'settings_thresholds_params', 'minRuleLength', "2"),
                 threshSupport: getValue<number>(dataView.metadata.objects, 'settings_thresholds_params', 'threshSupport', 0.01),
@@ -123,14 +123,14 @@ module powerbi.extensibility.visual {
             };
 
             this.settings_rules_params = <VisualSettingsRulesParams>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings_rules_params', 'show', false),
+                //show: getValue<boolean>(dataView.metadata.objects, 'settings_rules_params', 'show', false),
                 sortBy: getValue<string>(dataView.metadata.objects, 'settings_rules_params', 'sortBy', "lift"),
                 showFrom: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showFrom', 1),
                 showTo: getValue<number>(dataView.metadata.objects, 'settings_rules_params', 'showTo', 5)
             };
 
             this.settings_viz_params = <VisualSettingsVizParams>{
-                show: getValue<boolean>(dataView.metadata.objects, 'settings_viz_params', 'show', false),
+               // show: getValue<boolean>(dataView.metadata.objects, 'settings_viz_params', 'show', false),
                 visualisationMethod: getValue<string>(dataView.metadata.objects, 'settings_viz_params', 'visualisationMethod', "graph"),
                 rulesPerPlate: getValue<string>(dataView.metadata.objects, 'settings_viz_params', 'rulesPerPlate', "1"),
                 textSize: getValue<number>(dataView.metadata.objects, 'settings_viz_params', 'textSize', 10),
@@ -139,7 +139,7 @@ module powerbi.extensibility.visual {
                 colorBy: getValue<string>(dataView.metadata.objects, 'settings_viz_params', 'colorBy', "lift")
             };
             this.settings_additional_params = <VisualSettingsAdditionalParams> {
-                show: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'show', false),
+               // show: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'show', false),
                 showWarnings: getValue<boolean>(dataView.metadata.objects, 'settings_additional_params', 'showWarnings', false)
             };
 
@@ -171,7 +171,7 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings_thresholds_params.show,
+                          //  show: this.settings_thresholds_params.show,
                             minRuleLength: inMinMaxString(this.settings_thresholds_params.minRuleLength, 2, 10),
                             maxRuleLength: inMinMaxString(this.settings_thresholds_params.maxRuleLength, Number(this.settings_thresholds_params.minRuleLength), 10),
                             threshSupport: inMinMax(this.settings_thresholds_params.threshSupport, 0, 1),
@@ -185,7 +185,7 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings_rules_params.show,
+                          //  show: this.settings_rules_params.show,
                             sortBy: this.settings_rules_params.sortBy,
                             showFrom: this.settings_rules_params.showFrom,
                             showTo: inMinMax(this.settings_rules_params.showTo, this.settings_rules_params.showFrom, 100)
@@ -198,7 +198,7 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings_viz_params.show,
+                               // show: this.settings_viz_params.show,
                                 visualisationMethod: this.settings_viz_params.visualisationMethod,
                                 rulesPerPlate: inVisMethodAndRulesPerPlate(this.settings_viz_params.visualisationMethod, this.settings_viz_params.rulesPerPlate),
                                 textSize: this.settings_viz_params.textSize,
@@ -212,7 +212,7 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings_viz_params.show,
+                              //  show: this.settings_viz_params.show,
                                 visualisationMethod: this.settings_viz_params.visualisationMethod,
                                 colorBy: inVisMethodAndColorBy(this.settings_viz_params.visualisationMethod, this.settings_viz_params.colorBy)
                             },
@@ -223,7 +223,7 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings_viz_params.show,
+                               // show: this.settings_viz_params.show,
                                 visualisationMethod: this.settings_viz_params.visualisationMethod,
                                 textSize: this.settings_viz_params.textSize
                             },
@@ -234,7 +234,7 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                                show: this.settings_viz_params.show,
+                              //  show: this.settings_viz_params.show,
                                 visualisationMethod: this.settings_viz_params.visualisationMethod,
                                 textSize: this.settings_viz_params.textSize
                             },
@@ -247,7 +247,7 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                            show: this.settings_additional_params.show,
+                           // show: this.settings_additional_params.show,
                             showWarnings: this.settings_additional_params.showWarnings,
                          },
                         selector: null
