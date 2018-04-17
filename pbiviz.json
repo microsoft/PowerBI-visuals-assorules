@@ -1,6 +1,6 @@
 {
   "visual": {
-    "name": "PowerBI-visuals-assorules",
+        "name": "PowerBI-visuals-assorules",
     "displayName": "Association rules",
     "guid": "PBI_CV_3EEA6E26_A754_4ECA_BE51_C93859851FB2_WORK",
     "visualClassName": "Visual",
@@ -9,16 +9,19 @@
     "supportUrl": "http://community.powerbi.com/",
     "gitHubUrl": "https://github.com/microsoft/PowerBI-visuals-assorules"
   },
-  "apiVersion": "1.6.0",
-  "author": {
+  "apiVersion": "1.10.0",
+    "author": {
     "name": "Microsoft",
     "email": "pbicvsupport@microsoft.com"
   },
   "assets": {
     "icon": "assets/icon.png"
   },
-  "externalJS": [],
+  "externalJS": [
+    "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js"
+  ],
   "style": "style/visual.less",
   "capabilities": "capabilities.json",
-  "dependencies": "dependencies.json"
+  "dependencies": "dependencies.json",
+  "stringResources": []
 }
