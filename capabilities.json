@@ -27,7 +27,7 @@
     {
       "displayName": "Transaction ID",
       "description": "Transaction ID",
-      "kind": "Measure",
+      "kind": "Grouping",
       "name": "TransactionID"
     },
     {
