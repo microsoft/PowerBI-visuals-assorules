@@ -307,14 +307,14 @@
             "displayName": "Font size",
             "type" :{ "numeric": true }
           },
-          "edgeColLHS":{
-            "displayName": "Color of LHS",
+          "edgeCol":{
+            "displayName": "Color of edge",
             "description": "Edge color",
             "type": { "fill": { "solid": { "color": true }}}
           },
-          "edgeColRHS":{
-            "displayName": "Color of RHS",
-            "description": "Edge color",
+          "labelCol":{
+            "displayName": "Color of label",
+            "description": "Label color",
             "type": { "fill": { "solid": { "color": true }}}
           },
           "colorBy": {

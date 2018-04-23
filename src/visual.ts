@@ -122,8 +122,8 @@ module powerbi.extensibility.visual {
                                 visualisationMethod: this.settings.settings_viz_params.visualisationMethod,
                                 rulesPerPlate: inVisMethodAndRulesPerPlate(this.settings.settings_viz_params.visualisationMethod, this.settings.settings_viz_params.rulesPerPlate),
                                 textSize: this.settings.settings_viz_params.textSize,
-                                edgeColLHS: this.settings.settings_viz_params.edgeColLHS,
-                                edgeColRHS: this.settings.settings_viz_params.edgeColRHS,
+                                edgeCol: this.settings.settings_viz_params.edgeCol,
+                                labelCol: this.settings.settings_viz_params.labelCol
                             },
                             selector: null
                         });

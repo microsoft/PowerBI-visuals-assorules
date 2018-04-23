@@ -178,8 +178,8 @@ module powerbi.extensibility.visual {
       public visualisationMethod: string =  "graph";
       public rulesPerPlate: string =  "1";
       public textSize: number =  10;
-      public edgeColLHS: string =  "green";
-      public edgeColRHS: string =  "orange";
+      public edgeCol: string =  "green";
+      public labelCol: string =  "orange";
       public colorBy: string =  "lift";
     }
     export class settings_additional_params {

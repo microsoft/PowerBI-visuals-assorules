@@ -142,15 +142,15 @@ if(exists("settings_viz_params_rulesPerPlate"))
 
 ##PBI_PARAM: color of edges for LHS items for visualisationMethod  =  "graph" 
 #Type: color , Default:"green", Range:NA, PossibleValues:"red", "green", "blue", "cyan", Remarks: see colors {grDevices} command in R
-edgeColLHS = "green"
-if(exists("settings_viz_params_edgeColLHS"))
-  edgeColLHS =  settings_viz_params_edgeColLHS
+edgeCol = "green"
+if(exists("settings_viz_params_edgeCol"))
+  edgeCol =  settings_viz_params_edgeCol
 
 ##PBI_PARAM: color of edges for RHS items for visualisationMethod  =  "graph" 
 #Type: color , Default:"orange", Range:NA, PossibleValues:"red", "green", "blue", "cyan", Remarks: see colors {grDevices} command in R
-edgeColRHS = "orange"
-if(exists("settings_viz_params_edgeColRHS"))
-  edgeColRHS =  settings_viz_params_edgeColRHS
+labelCol = "orange"
+if(exists("settings_viz_params_labelCol"))
+  labelCol =  settings_viz_params_labelCol
 
 ##PBI_PARAM: font size of labels for visualisationMethod  =  "graph" 
 #Type: numeric , Default:1, Range:[0, 5], PossibleValues:NA, Remarks: NA
@@ -451,7 +451,8 @@ if(inputType == 1)
   if(length(columnsLHS) + length(columnsBoth) < 1 || length(columnsRHS)+length(columnsBoth) < 1 || waitForData == TRUE )
   {
     visualisationMethod = "empty"
-    pbiWarning <- paste(pbiWarning, "Both LHS and RHS should not be empty", sep = "\n")
+    pbiWarning <- paste(pbiWarning, "Both LHS and RHS should not be empty",
+     "Alternatively, both TransactionID and Item should not be empty", sep = "\n")
     
     #check if minRuleLength<= maxRuleLength
   }
@@ -538,7 +539,7 @@ if(length(rules)>=showFrom)
 if(length(rules) == 0)
 {
   visualisationMethod = "empty"
-  pbiWarning <- paste(pbiWarning, "No rules generated, for current set of thresholds", sep = "\n")
+  pbiWarning <- paste(pbiWarning, "No rules generated, for current combination of thresholds and input fields", sep = "\n")
 }
 
 #Visualizing Association Rules
@@ -558,11 +559,12 @@ if(visualisationMethod == "graph") # graph
     
     numEdgesRHS = sum(as(rules[s:e]@rhs, "matrix"))
     numEdgesLHS = sum(as(rules[s:e]@lhs, "matrix"))
-    edge.color = c(rep(edgeColLHS, numEdgesLHS),rep(edgeColRHS, numEdgesRHS))
+    edge.color = edgeCol
+    label.color = labelCol
     control = list( alpha = 1, measureLabels = FALSE, 
                    cex = fontSizeGraph, precision = 1, arrowSize = 0.5, 
                    main = "",  layoutParams	 =  list(xpd = T), 
-                   labelCol = edge.color)
+                   labelCol = label.color, edgeCol = edge.color )
     
     plot(rules[s:e], method = "graph", control = control, margin = -0.01, frame = FALSE,type = "items")
     
