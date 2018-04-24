@@ -1,8 +1,8 @@
 {
   "visual": {
-        "name": "PowerBI-visuals-assorules",
+    "name": "PowerBI-visuals-assorules",
     "displayName": "Association rules",
-    "guid": "PBI_CV_3EEA6E26_A754_4ECA_BE51_C93859851FB2_WORK",
+    "guid": "PBI_CV_3EEA6E26_A754_4ECA_BE51_C93859851FB2",
     "visualClassName": "Visual",
     "version": "1.0.3",
     "description": "<span>Association rules are if/then statements that help uncover relationships between seemingly unrelated data. The rules are automatically detected and visualized. This visual supports several methods for association rules visualization such as table, graph or parallel coordinates plot. You can control the algorithm parameters and the visual attributes to suit your needs.<br/><br/><span style='font-style:italic'>Service prerequisites:</span> R-powered custom visual is used in service seamlessly<br/><br /><span style='font-style:italic'>Desktop prerequisites:</span> To run R scripts in Power BI Desktop, you must separately install R on your local computer.<br />You can download and install R for free from the <a href='https://mran.revolutionanalytics.com/download/'>Revolution Open download page</a> or the <a href='https://cran.r-project.org/bin/windows/base/'>CRAN Repository</a><br /><br /> <span style='font-style:italic'> R package dependencies(auto-installed): </span> nloptr, seriation, gtools, caTools, lmtest, arules, arulesViz, grDevices, gridExtra, grid, methods <br /><br /> <span style='font-style:italic'> Supports R versions: </span> R 3.3.1, R 3.3.0, MRO 3.3.1, MRO 3.3.0, MRO 3.2.2  <br /></span>",
@@ -10,7 +10,7 @@
     "gitHubUrl": "https://github.com/microsoft/PowerBI-visuals-assorules"
   },
   "apiVersion": "1.10.0",
-    "author": {
+  "author": {
     "name": "Microsoft",
     "email": "pbicvsupport@microsoft.com"
   },

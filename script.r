@@ -40,14 +40,6 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
-if(file.exists(dirname(fileRda)))
-{
-  if(Sys.getenv("RSTUDIO")!="")
-    load(file= fileRda)
-  else
-    save(list = ls(all.names = TRUE), file=fileRda)
-}
 
 waitForData = FALSE # if waitForData == TRUE show empty plot 
 if(!exists("dataset") && !(exists("BOTH") || (exists("LHS") && exists("RHS"))) )
@@ -114,8 +106,7 @@ maxRules  =  5
 if(exists("settings_rules_params_showTo"))
   maxRules = as.numeric(settings_rules_params_showTo)
 
-showTo = maxRules
-showTo = max(showTo,showFrom)# can not be smaller
+showTo = max(maxRules,showFrom)# can not be smaller
 
 ##PBI_PARAM: sort and select the final set of rules by selected measure
 #Type: string , Default:"lift", Range:NA, PossibleValues:"lift", "support", "confidence", Remarks: NA
