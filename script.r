@@ -29,9 +29,9 @@
 #
 # CREATION DATE: 04/01/2016
 #
-# LAST UPDATE: 04/08/2016
+# LAST UPDATE: 04/24/2018
 #
-# VERSION: 0.0.1
+# VERSION: 1.0.3
 #
 # R VERSION TESTED: 3.2.2
 # 
@@ -305,7 +305,7 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   
   if(length(subsetMat)<=3)
     return(rules)
-  
+    
   redundant  <-  which(colSums(subsetMat, na.rm = T) >=  1)
   toRemove = NULL
   for (r1 in redundant)
