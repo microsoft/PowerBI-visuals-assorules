@@ -29,9 +29,9 @@
 #
 # CREATION DATE: 04/01/2016
 #
-# LAST UPDATE: 04/08/2016
+# LAST UPDATE: 04/24/2018
 #
-# VERSION: 0.0.1
+# VERSION: 1.0.3
 #
 # R VERSION TESTED: 3.2.2
 # 
@@ -40,45 +40,12 @@
 # REFERENCES: https://cran.r-project.org/web/packages/arules/arules.pdf
 # https://en.wikipedia.org/wiki/Association_rule_learning
 
-# fileRda = "C:/Users/boefraty/projects/PBI/R/tempData.Rda"
-# if(file.exists(dirname(fileRda)))
-# {
-#   if(Sys.getenv("RSTUDIO")!="")
-#     load(file= fileRda)
-#   else
-#     save(list = ls(all.names = TRUE), file=fileRda)
-# }
-
-
-#PBI_EXAMPLE_DATASET for debugging purposes 
-if(!exists("dataset") && !exists("LHS") && !exists("RHS") && !exists("BOTH") && !exists("ID"))
-{
-  data(Titanic)# and repeat ech row by frequency
-  Titanic1 = as.data.frame(Titanic)
-  Titanic2 <- data.frame(Titanic1[rep(c(1:nrow(Titanic1)), Titanic1$Freq), ])
-  Titanic2$Freq = NULL
-  dataset = cbind(ID = 1:nrow(Titanic2), Titanic2)
-
-}
 
 waitForData = FALSE # if waitForData == TRUE show empty plot 
 if(!exists("dataset") && !(exists("BOTH") || (exists("LHS") && exists("RHS"))) )
   waitForData = TRUE
 
-
-
 ############ User Parameters #########
-
-if(exists("settings_thresholds_params_show") && settings_thresholds_params_show == FALSE)
-  rm(list= ls(pattern = "settings_thresholds_params_"))
-if(exists("settings_rules_params_show") && settings_rules_params_show == FALSE)
-  rm(list= ls(pattern = "settings_rules_params_"))
-if(exists("settings3_show") && settings3_show == FALSE)
-  rm(list= ls(pattern = "settings3_"))
-if(exists("settings_viz_params_show") && settings_viz_params_show == FALSE)
-  rm(list= ls(pattern = "settings_viz_params_"))
-if(exists("settings_additional_params_show") && settings_additional_params_show == FALSE)
-  rm(list= ls(pattern = "settings_additional_params_"))
 
 ##PBI_PARAM: Should warnings text be displayed?
 #Type:logical, Default:TRUE, Range:NA, PossibleValues:NA, Remarks: NA
@@ -105,7 +72,7 @@ threshConfidence = min(1,max(threshConfidence,0))
 
 ##PBI_PARAM: minimum acceptable lift measure for rule 
 #Type: numeric, Default:1.1, Range:[0, 10], PossibleValues:NA, Remarks: values larger than 1 are recommended
-threshLift = 1.1
+threshLift = 1.05
 if(exists("settings_thresholds_params_threshLift"))
   threshLift = as.numeric(settings_thresholds_params_threshLift)
 
@@ -127,8 +94,7 @@ maxRuleLength = 8
 if(exists("settings_thresholds_params_maxRuleLength"))
   maxRuleLength = as.numeric(settings_thresholds_params_maxRuleLength)
 
-maxRuleLength = min(12,max(minRuleLength,maxRuleLength))
-
+maxRuleLength = min(12,max(minRuleLength, maxRuleLength))
 
 showFrom  =  1
 if(exists("settings_rules_params_showFrom"))
@@ -140,9 +106,7 @@ maxRules  =  5
 if(exists("settings_rules_params_showTo"))
   maxRules = as.numeric(settings_rules_params_showTo)
 
-showTo = maxRules
-showTo = max(showTo,showFrom)# can not be smaller
-
+showTo = max(maxRules,showFrom)# can not be smaller
 
 ##PBI_PARAM: sort and select the final set of rules by selected measure
 #Type: string , Default:"lift", Range:NA, PossibleValues:"lift", "support", "confidence", Remarks: NA
@@ -166,35 +130,18 @@ if(exists("settings_viz_params_rulesPerPlate"))
   if(is.na(rulesPerGraphPlate))
     rulesPerGraphPlate = 1
 }
-###############Library Declarations###############
-
-libraryRequireInstall = function(packageName, ...)
-{
-  if(!require(packageName, character.only = TRUE)) 
-    warning(paste("*** The package: '", packageName, "' was not installed ***",sep=""))
-}
-
-
-libraryRequireInstall("arules")
-libraryRequireInstall("arulesViz")
-libraryRequireInstall("grDevices")
-libraryRequireInstall("gridExtra")
-libraryRequireInstall("grid")
-libraryRequireInstall("methods")
-
-###############Internal parameters definitions#################
 
 ##PBI_PARAM: color of edges for LHS items for visualisationMethod  =  "graph" 
 #Type: color , Default:"green", Range:NA, PossibleValues:"red", "green", "blue", "cyan", Remarks: see colors {grDevices} command in R
-edgeColLHS = "green"
-if(exists("settings_viz_params_edgeColLHS"))
-  edgeColLHS =  settings_viz_params_edgeColLHS
+edgeCol = "green"
+if(exists("settings_viz_params_edgeCol"))
+  edgeCol =  settings_viz_params_edgeCol
 
 ##PBI_PARAM: color of edges for RHS items for visualisationMethod  =  "graph" 
 #Type: color , Default:"orange", Range:NA, PossibleValues:"red", "green", "blue", "cyan", Remarks: see colors {grDevices} command in R
-edgeColRHS = "orange"
-if(exists("settings_viz_params_edgeColRHS"))
-  edgeColRHS =  settings_viz_params_edgeColRHS
+labelCol = "orange"
+if(exists("settings_viz_params_labelCol"))
+  labelCol =  settings_viz_params_labelCol
 
 ##PBI_PARAM: font size of labels for visualisationMethod  =  "graph" 
 #Type: numeric , Default:1, Range:[0, 5], PossibleValues:NA, Remarks: NA
@@ -208,6 +155,23 @@ parCoordColorBy = "lift"
 if(exists("settings_viz_params_colorBy"))
   parCoordColorBy =  settings_viz_params_colorBy
 
+###############Library Declarations###############
+
+libraryRequireInstall = function(packageName, ...)
+{
+  if(!require(packageName, character.only = TRUE)) 
+    warning(paste("*** The package: '", packageName, "' was not installed ***",sep=""))
+}
+
+libraryRequireInstall("arules")
+libraryRequireInstall("arulesViz")
+libraryRequireInstall("grDevices")
+libraryRequireInstall("gridExtra")
+libraryRequireInstall("grid")
+libraryRequireInstall("methods")
+
+###############Internal parameters definitions#################
+
 ##PBI_PARAM: filter redundant rules by selected measure
 #Type: string , Default:"lift", Range:NA, PossibleValues:"lift", "confidence", Remarks: rule is redundant if it is less predictive than a more general rule 
 filterRedundantBy =  "lift"
@@ -215,35 +179,17 @@ filterRedundantBy =  "lift"
 ##PBI_PARAM: maximum acceptable support for rule 
 #Type: numeric, Default:1, Range:[0, 1], PossibleValues:NA, Remarks: NA
 upperThreshSupport = 1
-if(exists("settings3_threshSupport"))
-  upperThreshSupport = as.numeric(settings3_threshSupport)
+
 
 ##PBI_PARAM: maximum acceptable confidence for rule 
 #Type: numeric, Default:1, Range:[0, 1], PossibleValues:NA, Remarks: NA
 upperThreshConfidence = 1
-if(exists("settings3_threshConfidence"))
-  upperThreshConfidence = as.numeric(settings3_threshConfidence)
 
 ##PBI_PARAM: maximum acceptable confidence for rule 
 #Type: positive numeric, Default:Inf, Range:[0, Inf], PossibleValues:NA, Remarks: NA
 upperThreshLift = Inf
-if(exists("settings3_threshLift"))
-  upperThreshLift = as.numeric(settings3_threshLift)
 
-##PBI_PARAM: array of integer indexes for columns used in left hand side of the rule (LHS)
-#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used all the columns except for the right-most are used 
-if(!exists("columnsLHS"))
-  columnsLHS = NA
 
-##PBI_PARAM: array of integer indexes for columns used in right hand side of the rule (RHS)
-#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, the right-most column is selected 
-if(!exists("columnsRHS"))
-  columnsRHS = NA
-
-##PBI_PARAM: array of integer indexes for columns used both in RHS and LHS
-#Type: array of integers or NA or NULL, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, no columns are selected
-if(!exists("columnsBoth"))
-columnsBoth = NA
 
 ##PBI_PARAM: minimum number of transactions (rows) to run  
 #Type: integer , Default:10, Range:[10, 100], PossibleValues:NA, Remarks: NA
@@ -359,9 +305,7 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   
   if(length(subsetMat)<=3)
     return(rules)
-  
-  
-  
+    
   redundant  <-  which(colSums(subsetMat, na.rm = T) >=  1)
   toRemove = NULL
   for (r1 in redundant)
@@ -375,10 +319,30 @@ cleanRedundant <- function(rules, maxRules2process = 3e+06, measure = "lift", me
   return(rules)
 }
 ###############Upfront input correctness validations (where possible)#################
+
+inputType = 1 # (1) LHS&RHS or (2)ID&Item
+
+##PBI_PARAM: array of integer indexes for columns used in left hand side of the rule (LHS)
+#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used all the columns except for the right-most are used 
+if(!exists("columnsLHS"))
+  columnsLHS = NA
+
+##PBI_PARAM: array of integer indexes for columns used in right hand side of the rule (RHS)
+#Type: array of integers or NA, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, the right-most column is selected 
+if(!exists("columnsRHS"))
+  columnsRHS = NA
+
+##PBI_PARAM: array of integer indexes for columns used both in RHS and LHS
+#Type: array of integers or NA or NULL, Default:NA, Range:NA, PossibleValues:NA, Remarks: If NA is used, no columns are selected
+if(!exists("columnsBoth"))
+  columnsBoth = NA
+
+
+
+
 pbiWarning <- NULL
 
-
-if(waitForData==FALSE &&(exists("LHS")||exists("RHS") || exists("BOTH")))
+if(waitForData==FALSE && (exists("LHS") || exists("RHS") || exists("BOTH")))
 {
   if(!exists("RHS"))
     RHS = data.frame()
@@ -386,7 +350,7 @@ if(waitForData==FALSE &&(exists("LHS")||exists("RHS") || exists("BOTH")))
     LHS = data.frame()
   if(!exists("BOTH"))
     BOTH = data.frame()
- 
+  
   #exclude duplicates
   namesInLHSnRHSnotBOTH= setdiff(intersect(names(LHS),names(RHS)),names(BOTH)) # copy to BOTH
   if(length(namesInLHSnRHSnotBOTH)>0)
@@ -403,7 +367,7 @@ if(waitForData==FALSE &&(exists("LHS")||exists("RHS") || exists("BOTH")))
   if(length(namesInRHSnBOTH)>0)
     RHS=as.data.frame(RHS[,setdiff(names(RHS),namesInRHSnBOTH)])
   
-
+  
   columnsLHS = columnsRHS = columnsBoth = NULL
   
   NR = max(nrow(LHS),nrow(RHS),nrow(BOTH))
@@ -437,45 +401,70 @@ if(waitForData==FALSE &&(exists("LHS")||exists("RHS") || exists("BOTH")))
   inRHS = length(columnsRHS)
   if(nrow(LHS) > 1)
     dataset = cbind(LHS,BOTH,RHS)
+  
+}
 
+if(!exists("dataset") || is.null(dataset))
+{
+  if((exists("TransactionID") && exists("Item")))
+  {
+    dataset = cbind(TransactionID, Item)
+    dataset <- dataset[complete.cases(dataset), ] #remove incomplete rows
+    if(nrow(dataset)>1)
+      inputType = 2
+  }
 }
 
 
-if(exists("dataset") && !is.null(dataset))
+if(inputType == 1)
 {
-  dataset = prepareData(dataset)
-} else {
-  dataset = NULL
+  if(exists("dataset") && !is.null(dataset))
+  {
+    dataset = prepareData(dataset)
+  } else {
+    dataset = NULL
+  }
+  
+  if(is.null(dataset) || ncol(dataset) < 2)
+    columnsLHS = columnsRHS = columnsBoth = NULL;
+  
+  #LHS, RHS
+  if(!is.null(columnsLHS) && is.na(columnsLHS))
+    columnsLHS <- columnsForLHS(dataset)
+  
+  if(!is.null(columnsRHS) &&is.na(columnsRHS))
+    columnsRHS <- columnsForRHS(dataset)
+  
+  if(!is.null(columnsBoth) &&is.na(columnsBoth))
+    columnsBoth <- columnsForBoth(dataset)
+  
+  #check if LHS and RHS non empty
+  if(length(columnsLHS) + length(columnsBoth) < 1 || length(columnsRHS)+length(columnsBoth) < 1 || waitForData == TRUE )
+  {
+    visualisationMethod = "empty"
+    pbiWarning <- paste(pbiWarning, "Both LHS and RHS should not be empty",
+     "Alternatively, both TransactionID and Item should not be empty", sep = "\n")
+    
+    #check if minRuleLength<= maxRuleLength
+  }
 }
-if(is.null(dataset) || ncol(dataset)<2)
-  columnsLHS = columnsRHS = columnsBoth = NULL;
 
-#LHS, RHS
-if(!is.null(columnsLHS) && is.na(columnsLHS))
-  columnsLHS <- columnsForLHS(dataset)
 
-if(!is.null(columnsRHS) &&is.na(columnsRHS))
-  columnsRHS <- columnsForRHS(dataset)
 
-if(!is.null(columnsBoth) &&is.na(columnsBoth))
-  columnsBoth <- columnsForBoth(dataset)
-
-#check if LHS and RHS non empty
-if(length(columnsLHS)+length(columnsBoth)<1 || length(columnsRHS)+length(columnsBoth)<1 || waitForData == TRUE )
+if(visualisationMethod != "empty")
 {
-  visualisationMethod = "empty"
-  pbiWarning <- paste(pbiWarning, "Both LHS and RHS should not be empty", sep = "\n")
-
-#check if minRuleLength<= maxRuleLength
-}else if(minRuleLength>maxRuleLength )
-{
-  visualisationMethod = "empty"
-  pbiWarning <- paste(pbiWarning, "maxRuleLength needs to be >=  minRuleLength", sep = "\n")
-} else if(nrow(dataset)<minTransactions)
-{
-  visualisationMethod = "empty"
-  pbiWarning <- paste(pbiWarning, "Not enough rows to perform analysis", sep = "\n")
+  if(minRuleLength>maxRuleLength )
+  {
+    visualisationMethod = "empty"
+    pbiWarning <- paste(pbiWarning, "maxRuleLength needs to be >=  minRuleLength", sep = "\n")
+  } else if(nrow(dataset)<minTransactions)
+  {
+    visualisationMethod = "empty"
+    pbiWarning <- paste(pbiWarning, "Not enough rows to perform analysis", sep = "\n")
+  }
 }
+
+
 ##############Main Visualization script###########
 
 
@@ -486,17 +475,28 @@ if(visualisationMethod!= "empty")
   randSeed = 42
   set.seed(randSeed)
   
-  #convert dataset to transactions 
-  transData = as(dataset, "transactions")
+  if(inputType == 1)
+  {
+    #convert dataset to transactions 
+    transData = as(dataset, "transactions")
+    
+    #add names of columns for lhs, rhs 
+    appearance = ConstructAppearanceList(colnames(dataset)[columnsLHS], colnames(dataset)[columnsRHS], colnames(dataset)[columnsBoth], transData)
+  }
+  else # inputType ==2 
+  {
+    nnn = names(dataset)
+    #specific for Your  data type
+    transData <- as(split(dataset[,nnn[2]], dataset[,nnn[1]]), "transactions")
+    appearance = NULL
+  }
   
-  #add names of columns for lhs, rhs 
-  appearance = ConstructAppearanceList(colnames(dataset)[columnsLHS], colnames(dataset)[columnsRHS], colnames(dataset)[columnsBoth], transData)
   
-    # find association rules with default settings
-  rules  <-  apriori(dataset, 
-                   parameter = list(minlen = minRuleLength, maxlen = maxRuleLength, supp = threshSupport, confidence = threshConfidence, target = "rules"), 
-                   appearance = appearance, 
-                   control  =  list(verbose = F))
+  # find association rules with default settings
+  rules  <-  apriori(transData, 
+                     parameter = list(minlen = minRuleLength, maxlen = maxRuleLength, supp = threshSupport, confidence = threshConfidence, target = "rules"), 
+                     appearance = appearance, 
+                     control  =  list(verbose = F))
   
   #removeRules by upperThresholds
   if(!is.null(rules@quality$support))
@@ -530,18 +530,18 @@ if(length(rules)>=showFrom)
 if(length(rules) == 0)
 {
   visualisationMethod = "empty"
-  pbiWarning <- paste(pbiWarning, "No rules generated, for current set of thresholds", sep = "\n")
+  pbiWarning <- paste(pbiWarning, "No rules generated, for current combination of thresholds and input fields", sep = "\n")
 }
 
 #Visualizing Association Rules
 if(visualisationMethod == "graph") # graph 
 {
   gp = getGridPartition(length(rules), rulesPerGraphPlate)
- 
   
-   par(oma=0.25*c(1,1,1,1),mar=0.5*c(1,1,1,1), mfrow = c(gp$numRows, gp$numCols), xpd = TRUE)
+  
+  par(oma=0.25*c(1,1,1,1),mar=0.5*c(1,1,1,1), mfrow = c(gp$numRows, gp$numCols), xpd = TRUE)
   # unfortunatly: mar and xpd are overwrited
-    
+  
   for (p in 1:length(gp$partit))
   {
     s = sum(gp$partit[seq(1, length.out = p-1)])+1
@@ -550,11 +550,14 @@ if(visualisationMethod == "graph") # graph
     
     numEdgesRHS = sum(as(rules[s:e]@rhs, "matrix"))
     numEdgesLHS = sum(as(rules[s:e]@lhs, "matrix"))
-    edge.color = c(rep(edgeColLHS, numEdgesLHS), rep(edgeColRHS, numEdgesRHS))
+    edge.color = edgeCol
+    label.color = labelCol
+    control = list( alpha = 1, measureLabels = FALSE, 
+                   cex = fontSizeGraph, precision = 1, arrowSize = 0.5, 
+                   main = "",  layoutParams	 =  list(xpd = T), 
+                   labelCol = label.color, edgeCol = edge.color )
     
-    plot(rules[s:e], method = "graph", 
-         control = list(type = "items", alpha = 1, measureLabels = FALSE, 
-                      cex = fontSizeGraph, precision = 1, arrowSize = 0.5, main = "",  layoutParams	 =  list(xpd = T)), edge.color = edge.color, margin = -0.01, frame = FALSE)
+    plot(rules[s:e], method = "graph", control = control, margin = -0.01, frame = FALSE,type = "items")
     
   }
 }
@@ -584,7 +587,7 @@ if(visualisationMethod == "table") # table
   
   tt  <-  ttheme_minimal(
     core = list(bg_params  =  list(fill  =  blues9[1:4], col = "gray"), 
-              fg_params = list(fontface = 3, cex = fontSizeGraph)), 
+                fg_params = list(fontface = 3, cex = fontSizeGraph)), 
     colhead = list(fg_params = list(col = "orange", fontface = 4L,cex = fontSizeGraph*1.1)), 
     rowhead = list(fg_params = list(col = "white", fontface = 3L)))
   
