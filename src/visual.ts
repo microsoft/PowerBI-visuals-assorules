@@ -78,10 +78,6 @@ module powerbi.extensibility.visual {
          * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
          * objects and properties you want to expose to the users in the property pane.
          */
-        // public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions):
-        //     VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-        //     return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
-        // }
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstanceEnumeration {
             let objectName = options.objectName;
             let objectEnumeration = [];
@@ -118,7 +114,6 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                               // show: this.settings.settings_viz_params.show,
                                 visualisationMethod: this.settings.settings_viz_params.visualisationMethod,
                                 rulesPerPlate: inVisMethodAndRulesPerPlate(this.settings.settings_viz_params.visualisationMethod, this.settings.settings_viz_params.rulesPerPlate),
                                 textSize: this.settings.settings_viz_params.textSize,
@@ -132,7 +127,6 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                              //  show: this.settings.settings_viz_params.show,
                                 visualisationMethod: this.settings.settings_viz_params.visualisationMethod,
                                 colorBy: inVisMethodAndColorBy(this.settings.settings_viz_params.visualisationMethod, this.settings.settings_viz_params.colorBy)
                             },
@@ -143,7 +137,6 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                               // show: this.settings.settings_viz_params.show,
                                 visualisationMethod: this.settings.settings_viz_params.visualisationMethod,
                                 textSize: this.settings.settings_viz_params.textSize
                             },
@@ -154,7 +147,6 @@ module powerbi.extensibility.visual {
                         objectEnumeration.push({
                             objectName: objectName,
                             properties: {
-                              //  show: this.settings.settings_viz_params.show,
                                 visualisationMethod: this.settings.settings_viz_params.visualisationMethod,
                                 textSize: this.settings.settings_viz_params.textSize
                             },
@@ -167,8 +159,7 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                           // show: this.settings.settings_additional_params.show,
-                            showWarnings: this.settings.settings_additional_params.showWarnings,
+                            showWarnings: this.settings.settings_additional_params.showWarnings
                          },
                         selector: null
                     });
