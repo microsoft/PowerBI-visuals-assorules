@@ -87,7 +87,6 @@ module powerbi.extensibility.visual {
                     objectEnumeration.push({
                         objectName: objectName,
                         properties: {
-                          //  show: this.settings_thresholds_params.show,
                             minRuleLength: inMinMaxString(this.settings.settings_thresholds_params.minRuleLength, 2, 10),
                             maxRuleLength: inMinMaxString(this.settings.settings_thresholds_params.maxRuleLength, Number(this.settings.settings_thresholds_params.minRuleLength), 10),
                             threshSupport: inMinMax(this.settings.settings_thresholds_params.threshSupport, 0, 1),
